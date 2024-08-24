@@ -1,19 +1,19 @@
 .newPostContainer {
-	@apply container max-w-[600px] mt-5;
+  @apply container max-w-[600px] mt-5;
 }
 
 .header {
-	@apply flex items-center justify-between mb-3;
-	
-	& > h2 {
-		@apply text-2xl leading-none;
-	}
+  @apply flex items-center justify-between mb-3;
+
+  & > h2 {
+    @apply text-2xl leading-none;
+  }
 }
 
 .formContainer {
-	@apply flex flex-col gap-3;
+  @apply flex flex-col gap-3;
 }
 
 .fieldContainer {
-	@apply grid items-center gap-1.5;
+  @apply grid items-center gap-1.5;
 }

@@ -1,7 +1,7 @@
 .loadingBlock {
-	@apply absolute top-1/2 left-1/2;
+  @apply absolute top-1/2 left-1/2;
 }
 
 .loading {
-	@apply animate-spin text-muted-foreground size-5;
+  @apply animate-spin text-muted-foreground size-5;
 }

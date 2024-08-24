@@ -1,19 +1,19 @@
 .posts {
-	@apply container max-w-[600px] mt-5;
+  @apply container max-w-[600px] mt-5;
 }
 
 .postsHeader {
-	@apply flex items-center justify-between mb-3;
+  @apply flex items-center justify-between mb-3;
 }
 
 .postTitle {
-	@apply text-2xl leading-none;
+  @apply text-2xl leading-none;
 }
 
 .postsCards {
-	@apply flex flex-col gap-2;
+  @apply flex flex-col gap-2;
 }
 
 .emptyText {
-	@apply text-sm text-center text-muted-foreground;
+  @apply text-sm text-center text-muted-foreground;
 }
