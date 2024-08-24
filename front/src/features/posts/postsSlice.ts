@@ -1,15 +1,17 @@
-import { fetchPosts } from '@/features/posts/postsThunks';
+import { deletePost, fetchPosts } from '@/features/posts/postsThunks';
 import type { News } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface PostsState {
   posts: News[];
   isFetching: boolean;
+  isDeleting: boolean;
 }
 
 const initialState: PostsState = {
   posts: [],
   isFetching: false,
+  isDeleting: false,
 };
 
 export const postsSlice = createSlice({
@@ -28,11 +30,23 @@ export const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state) => {
         state.isFetching = false;
       });
+
+    builder
+      .addCase(deletePost.pending, (state) => {
+        state.isDeleting = true;
+      })
+      .addCase(deletePost.fulfilled, (state) => {
+        state.isDeleting = false;
+      })
+      .addCase(deletePost.rejected, (state) => {
+        state.isDeleting = false;
+      });
   },
   selectors: {
     selectPosts: (state) => state.posts,
     selectPostsFetching: (state) => state.isFetching,
+    selectPostsDeleting: (state) => state.isDeleting,
   },
 });
 
-export const { selectPosts, selectPostsFetching } = postsSlice.selectors;
+export const { selectPosts, selectPostsFetching, selectPostsDeleting } = postsSlice.selectors;

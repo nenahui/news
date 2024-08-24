@@ -1,5 +1,8 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { NotFoundIc } from '@/assets/icons/NotFound';
 import { Button } from '@/components/ui/button';
+import { selectPostsDeleting } from '@/features/posts/postsSlice';
+import { deletePost, fetchPosts } from '@/features/posts/postsThunks';
 import type { News } from '@/types';
 import React from 'react';
 import { Card } from '@/components/ui/card';
@@ -12,6 +15,14 @@ interface Props {
 }
 
 export const PostCard: React.FC<Props> = ({ post }) => {
+  const dispatch = useAppDispatch();
+  const isDeleting = useAppSelector(selectPostsDeleting);
+
+  const onDelete = async () => {
+    await dispatch(deletePost(post.id));
+    dispatch(fetchPosts());
+  };
+
   return (
     <Card className={styles.card}>
       {post.image ? (
@@ -29,7 +40,13 @@ export const PostCard: React.FC<Props> = ({ post }) => {
               <DoubleArrowRightIcon className={'mb-[-2px]'} />
             </Link>
           </div>
-          <Button size={'sm'} variant={'ghost'} className={'hover:text-red-600'}>
+          <Button
+            disabled={isDeleting}
+            onClick={onDelete}
+            size={'sm'}
+            variant={'ghost'}
+            className={'hover:text-red-600'}
+          >
             Delete <TrashIcon />
           </Button>
         </div>
