@@ -10,7 +10,7 @@ export type NewsMutation = Omit<News, 'id' | 'createdAt'>;
 
 export interface Comment {
   id: number;
-  news_id: string;
+  news_id: number;
   author: string | null;
   text: string;
   createdAt: string;
