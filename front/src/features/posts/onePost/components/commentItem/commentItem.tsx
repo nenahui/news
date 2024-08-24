@@ -19,7 +19,7 @@ export const CommentItem: React.FC<Props> = ({ comment, onDelete }) => {
   return (
     <Card className={styles.card}>
       <div className={styles.cardHeader}>
-        <h3>{comment.author}</h3>
+        <h3>{comment.author ? comment.author : 'Anonymous'}</h3>
         <span>{formatDate(comment.createdAt, 'v2')} ago</span>
       </div>
       <p>{comment.text}</p>
