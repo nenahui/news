@@ -1,0 +1,39 @@
+.image {
+	@apply size-16 rounded-xl;
+}
+
+.notFound {
+	@apply text-muted-foreground size-16 opacity-50;
+}
+
+.card {
+	@apply p-3 flex gap-3 items-center;
+}
+
+.cardInfo {
+	@apply w-full;
+}
+
+.cardTitle {
+	@apply text-[18px];
+}
+
+.cardBottom {
+	@apply flex justify-between gap-3;
+}
+
+.cardDate {
+	@apply text-sm flex gap-4 items-end;
+	
+	& span {
+		@apply text-muted-foreground;
+	}
+	
+	& a {
+		@apply flex gap-1 items-center hover:text-muted-foreground duration-200;
+	}
+}
+
+.btn {
+	@apply hover:text-red-600;
+}
