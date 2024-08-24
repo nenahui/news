@@ -26,9 +26,9 @@ commentsRouter.post('/', async (req, res, next) => {
   try {
     const body = req.body;
 
-    if (!body.news_id) {
+    if (!body.news_id || !body.text) {
       return res.status(400).send({
-        message: 'The news_id are required!',
+        message: 'The news_id and text are required!',
       });
     }
 

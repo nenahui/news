@@ -1,0 +1,15 @@
+.card {
+	@apply px-3 py-1 pt-2 rounded-lg;
+	
+	& > span {
+		@apply text-muted-foreground;
+	}
+	
+	& > p {
+		@apply text-sm;
+	}
+}
+
+.btn {
+	@apply ml-auto flex py-1 text-muted-foreground !important;
+}

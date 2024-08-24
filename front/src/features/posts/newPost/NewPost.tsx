@@ -8,6 +8,7 @@ import type { NewsMutation } from '@/types';
 import React, { type ChangeEvent, type FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import styles from './NewPost.module.scss';
 
 const initialState: NewsMutation = {
   image: null,
@@ -58,9 +59,9 @@ export const NewPost: React.FC = () => {
   };
 
   return (
-    <div className={'container max-w-[600px] mt-5'}>
-      <div className={'flex items-center justify-between mb-3'}>
-        <h2 className={'text-2xl leading-none'}>Add new post</h2>
+    <div className={styles.newPostContainer}>
+      <div className={styles.header}>
+        <h2>Add new post</h2>
         <Link to={'/'}>
           <Button size={'sm'} variant={'outline'}>
             Cancel
@@ -69,8 +70,8 @@ export const NewPost: React.FC = () => {
       </div>
 
       <form onSubmit={onSubmit}>
-        <div className={'flex flex-col gap-3'}>
-          <div className={'grid items-center gap-1.5'}>
+        <div className={styles.formContainer}>
+          <div className={styles.fieldContainer}>
             <Label htmlFor={'title'}>Title</Label>
             <Input
               type={'text'}
@@ -81,7 +82,7 @@ export const NewPost: React.FC = () => {
             />
           </div>
 
-          <div className={'grid items-center gap-1.5'}>
+          <div className={styles.fieldContainer}>
             <Label htmlFor={'content'}>Content</Label>
             <Textarea
               rows={6}
@@ -92,7 +93,7 @@ export const NewPost: React.FC = () => {
             />
           </div>
 
-          <div className={'grid items-center gap-1.5'}>
+          <div className={styles.fieldContainer}>
             <Label htmlFor={'image'}>Image</Label>
             <Input type={'file'} id={'image'} name={'image'} onChange={onFileChang} />
           </div>

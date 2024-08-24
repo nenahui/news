@@ -1,5 +1,5 @@
 export interface News {
-  id: string;
+  id: number;
   title: string;
   content: string;
   image: string | null;
@@ -9,7 +9,7 @@ export interface News {
 export type NewsMutation = Omit<News, 'id' | 'createdAt'>;
 
 export interface Comment {
-  id: string;
+  id: number;
   news_id: string;
   author: string | null;
   text: string;

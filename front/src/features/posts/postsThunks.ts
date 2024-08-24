@@ -8,7 +8,7 @@ export const fetchPosts = createAsyncThunk('posts/fetch', async () => {
   return apiPosts;
 });
 
-export const deletePost = createAsyncThunk('posts/delete', async (id: string) => {
+export const deletePost = createAsyncThunk('posts/delete', async (id: number) => {
   await axiosApi.delete(`/news/${id}`);
 
   return id;

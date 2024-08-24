@@ -1,30 +1,34 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { API_URL } from '@/constants';
+import { CommentForm } from '@/features/posts/newPost/components/commentForm/commentForm';
 import { CommentItem } from '@/features/posts/onePost/components/commentItem/commentItem';
 import { selectOnePostFetching, selectOnePostNews } from '@/features/posts/onePost/onePostSlice';
 import { deleteComment, fetchPost } from '@/features/posts/onePost/onePostThunks';
+import { ResetIcon } from '@radix-ui/react-icons';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import styles from './OnePost.module.scss';
 
 export const OnePost: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const news = useAppSelector(selectOnePostNews);
   const isFetching = useAppSelector(selectOnePostFetching);
 
   useEffect(() => {
-    dispatch(fetchPost(id));
+    dispatch(fetchPost(parseFloat(id)));
   }, [dispatch, id]);
 
-  const onDelete = async (commentId: string) => {
+  const onDelete = async (commentId: number) => {
     await dispatch(deleteComment(commentId));
-    dispatch(fetchPost(id));
+    dispatch(fetchPost(parseFloat(id)));
   };
+
+  const toBack = () => navigate(-1);
 
   if (isFetching) {
     return <Loader />;
@@ -35,41 +39,39 @@ export const OnePost: React.FC = () => {
   }
 
   return (
-    <div className={'container max-w-[600px] mt-5'}>
-      <div className={'flex items-center justify-between mb-3'}>
-        <h3 className={'text-xl'}>{news.newsInfo.title}</h3>
-        <span className={'text-sm text-muted-foreground'}>
-          {dayjs(news.newsInfo.createdAt).format('DD MMMM, YYYY hh:mm A')}
-        </span>
-      </div>
-
-      <p className={'mb-4'}>{news.newsInfo.content}</p>
-
-      <h3 className={'text-xl mb-1'}>Comments</h3>
-      <div className={'flex flex-col gap-2 mb-4'}>
-        {news.comments.length === 0 ? (
-          <p className={'text-muted-foreground text-sm'}>There are no comments.</p>
-        ) : (
-          news.comments.map((item) => <CommentItem key={item.id} comment={item} onDelete={onDelete} />)
-        )}
-      </div>
-
-      <h3 className={'text-xl mb-2'}>Add comment</h3>
-      <form>
-        <div className={'flex flex-col gap-3'}>
-          <div className={'grid items-center gap-1.5'}>
-            <Label htmlFor={'name'}>Name</Label>
-            <Input type={'name'} id={'name'} name={'name'} placeholder={'Enter the news name'} />
-          </div>
-
-          <div className={'grid items-center gap-1.5'}>
-            <Label htmlFor={'comment'}>Comment</Label>
-            <Textarea rows={3} id={'comment'} name={'comment'} placeholder={'Enter the news comment'} />
-          </div>
-
-          <Button>Save</Button>
+    <div className={styles.onePostContainer}>
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <h3>{news.newsInfo.title}</h3>
+          <span>{dayjs(news.newsInfo.createdAt).format('DD MMMM, YYYY hh:mm A')}</span>
         </div>
-      </form>
+
+        <Button onClick={toBack} size={'icon'} variant={'ghost'}>
+          <ResetIcon />
+        </Button>
+      </div>
+
+      <p className={styles.postContent}>{news.newsInfo.content}</p>
+
+      {news.newsInfo.image && (
+        <img className={styles.postImage} src={`${API_URL}/${news.newsInfo.image}`} alt={news.newsInfo.title} />
+      )}
+
+      <div className={styles.commentsContainer}>
+        <h3>Comments</h3>
+        <div className={styles.commentsBlock}>
+          {news.comments.length === 0 ? (
+            <p>There are no comments.</p>
+          ) : (
+            news.comments.map((item) => <CommentItem key={item.id} comment={item} onDelete={onDelete} />)
+          )}
+        </div>
+      </div>
+
+      <div className={styles.commentsForm}>
+        <h3>Add comment</h3>
+        <CommentForm newsId={news.newsInfo.id} />
+      </div>
     </div>
   );
 };

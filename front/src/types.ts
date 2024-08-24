@@ -1,5 +1,5 @@
 export interface News {
-  id: string;
+  id: number;
   title: string;
   content: string;
   image: string | null;
@@ -13,8 +13,8 @@ export interface NewsMutation {
 }
 
 export interface Comment {
-  id: string;
-  news_id: string;
+  id: number;
+  news_id: number;
   author: string | null;
   text: string;
 }

@@ -1,4 +1,4 @@
-import { deleteComment, fetchPost } from '@/features/posts/onePost/onePostThunks';
+import { addComment, deleteComment, fetchPost } from '@/features/posts/onePost/onePostThunks';
 import type { NewsDetails } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -6,12 +6,14 @@ interface OnePostState {
   news: NewsDetails | null;
   isFetching: boolean;
   isCommentDeleting: boolean;
+  isCreating: boolean;
 }
 
 const initialState: OnePostState = {
   news: null,
   isFetching: false,
   isCommentDeleting: false,
+  isCreating: false,
 };
 
 export const onePostSlice = createSlice({
@@ -41,12 +43,25 @@ export const onePostSlice = createSlice({
       .addCase(deleteComment.rejected, (state) => {
         state.isCommentDeleting = false;
       });
+
+    builder
+      .addCase(addComment.pending, (state) => {
+        state.isCreating = true;
+      })
+      .addCase(addComment.fulfilled, (state) => {
+        state.isCreating = false;
+      })
+      .addCase(addComment.rejected, (state) => {
+        state.isCreating = false;
+      });
   },
   selectors: {
     selectOnePostNews: (state) => state.news,
     selectOnePostFetching: (state) => state.isFetching,
     selectOnePostCommentDeleting: (state) => state.isCommentDeleting,
+    selectOnePostCreating: (state) => state.isCreating,
   },
 });
 
-export const { selectOnePostNews, selectOnePostFetching, selectOnePostCommentDeleting } = onePostSlice.selectors;
+export const { selectOnePostNews, selectOnePostFetching, selectOnePostCommentDeleting, selectOnePostCreating } =
+  onePostSlice.selectors;

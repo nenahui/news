@@ -1,8 +1,8 @@
 import { axiosApi } from '@/axiosApi';
-import type { Comment, News, NewsDetails } from '@/types';
+import type { Comment, CommentMutation, News, NewsDetails } from '@/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchPost = createAsyncThunk('onePost/fetch', async (id: string) => {
+export const fetchPost = createAsyncThunk('onePost/fetch', async (id: number) => {
   const { data: newsInfo } = await axiosApi.get<News>(`/news/${id}`);
   const { data: newsComments } = await axiosApi.get<Comment[]>(`/comments?news_id=${id}`);
 
@@ -14,7 +14,10 @@ export const fetchPost = createAsyncThunk('onePost/fetch', async (id: string) =>
   return newsDetails;
 });
 
-export const deleteComment = createAsyncThunk('onePost/delete', async (id: string) => {
-  console.log('Deleting...');
+export const deleteComment = createAsyncThunk('onePost/delete', async (id: number) => {
   await axiosApi.delete(`/comments/${id}`);
+});
+
+export const addComment = createAsyncThunk('onePost/create', async (comment: CommentMutation) => {
+  await axiosApi.post('/comments', comment);
 });

@@ -1,21 +1,32 @@
+import React from 'react';
+import { useAppSelector } from '@/app/hooks';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { selectOnePostCommentDeleting } from '@/features/posts/onePost/onePostSlice';
 import { Comment } from '@/types';
 import { TrashIcon } from '@radix-ui/react-icons';
-import React from 'react';
+import styles from './commentItem.module.scss';
 
 interface Props {
   comment: Comment;
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
 }
 
 export const CommentItem: React.FC<Props> = ({ comment, onDelete }) => {
-  return (
-    <Card className={'px-3 py-1 pt-2 rounded-lg'}>
-      <h3 className={'text-muted-foreground'}>{comment.author}</h3>
-      <p className={'text-sm'}>{comment.text}</p>
+  const isDeleting = useAppSelector(selectOnePostCommentDeleting);
 
-      <Button onClick={() => onDelete(comment.id)} variant={'outline'} size={'sm'} className={'ml-auto flex py-1'}>
+  return (
+    <Card className={styles.card}>
+      <h3>{comment.author}</h3>
+      <p>{comment.text}</p>
+
+      <Button
+        disabled={isDeleting}
+        onClick={() => onDelete(comment.id)}
+        variant={'ghost'}
+        size={'sm'}
+        className={styles.btn}
+      >
         Delete
         <TrashIcon />
       </Button>
