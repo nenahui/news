@@ -6,7 +6,11 @@ export interface News {
   createdAt: string;
 }
 
-export type NewsMutation = Omit<News, 'id' | 'createdAt'>;
+export interface NewsMutation {
+  title: string;
+  content: string;
+  image: File | null;
+}
 
 export interface Comment {
   id: string;
@@ -16,3 +20,8 @@ export interface Comment {
 }
 
 export type CommentMutation = Omit<Comment, 'id'>;
+
+export interface NewsDetails {
+  newsInfo: News;
+  comments: Comment[];
+}

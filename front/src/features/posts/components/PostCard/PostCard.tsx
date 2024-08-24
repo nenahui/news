@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { NotFoundIc } from '@/assets/icons/NotFound';
 import { Button } from '@/components/ui/button';
+import { API_URL } from '@/constants';
 import { selectPostsDeleting } from '@/features/posts/postsSlice';
 import { deletePost, fetchPosts } from '@/features/posts/postsThunks';
 import type { News } from '@/types';
@@ -9,6 +10,7 @@ import { Card } from '@/components/ui/card';
 import { DoubleArrowRightIcon, TrashIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 import styles from './PostCard.module.scss';
+import dayjs from 'dayjs';
 
 interface Props {
   post: News;
@@ -23,19 +25,21 @@ export const PostCard: React.FC<Props> = ({ post }) => {
     dispatch(fetchPosts());
   };
 
+  let image = <NotFoundIc className={styles.notFound} />;
+
+  if (post.image) {
+    image = <img src={`${API_URL}/${post.image}`} alt={'Card'} className={styles.image} />;
+  }
+
   return (
     <Card className={styles.card}>
-      {post.image ? (
-        <img src={post.image} alt={'Card'} className={styles.image} />
-      ) : (
-        <NotFoundIc className={styles.notFound} />
-      )}
+      {image}
       <div className={styles.cardInfo}>
         <h3 className={styles.cardTitle}>{post.title}</h3>
         <div className={styles.cardBottom}>
           <div className={styles.cardDate}>
-            <span>At {post.createdAt}</span>
-            <Link to={'/'}>
+            <span>{dayjs(post.createdAt).format('DD MMMM, YYYY hh:mm A')}</span>
+            <Link to={`/news/${post.id}`}>
               Read full post
               <DoubleArrowRightIcon className={'mb-[-2px]'} />
             </Link>
