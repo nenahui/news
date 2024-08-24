@@ -13,6 +13,7 @@ export interface Comment {
   news_id: string;
   author: string | null;
   text: string;
+  createdAt: string;
 }
 
-export type CommentMutation = Omit<Comment, 'id'>;
+export type CommentMutation = Omit<Comment, 'id' | 'createdAt'>;

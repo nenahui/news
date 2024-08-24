@@ -6,27 +6,28 @@ create table news
     id        int auto_increment
         primary key,
     title     varchar(255)                       not null,
-    content   varchar(255)                       not null,
+    content   text                               not null,
     image     varchar(255)                       null,
     createdAt datetime default CURRENT_TIMESTAMP null
 );
 
 create table comment
 (
-    id      int auto_increment
+    id        int auto_increment
         primary key,
-    news_id int          not null,
-    author  varchar(255) null,
-    text    varchar(255) not null,
+    news_id   int                                not null,
+    author    varchar(255)                       null,
+    text      text                               not null,
+    createdAt datetime default CURRENT_TIMESTAMP null,
     constraint comment_news_id_fk
         foreign key (news_id) references news (id)
             on delete cascade
 );
 
-INSERT INTO news (title, content, image) VALUES
-('Breaking News: Major Event Unfolds', 'A major event is currently unfolding in the city...', 'event1.jpg'),
-('Tech News: New Gadget Released', 'The latest gadget has just been released...', 'gadget.jpg'),
-('Sports Update: Team Wins Championship', 'In an exciting final match, the team clinched the championship...', 'championship.jpg');
+INSERT INTO news (title, content) VALUES
+('Breaking News: Major Event Unfolds', 'A major event is currently unfolding in the city...'),
+('Tech News: New Gadget Released', 'The latest gadget has just been released...'),
+('Sports Update: Team Wins Championship', 'In an exciting final match, the team clinched the championship...');
 
 INSERT INTO comment (news_id, author, text) VALUES
 (1, 'John Doe', 'This is unbelievable!'),

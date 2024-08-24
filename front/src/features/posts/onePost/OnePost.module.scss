@@ -6,7 +6,7 @@
 	@apply flex justify-between mb-3;
 	
 	.headerLeft {
-		@apply flex flex-wrap gap-1 items-center justify-between;
+		@apply flex flex-col flex-wrap gap-1 justify-between;
 		
 		& > h3 {
 			@apply text-xl;
