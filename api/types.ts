@@ -7,3 +7,12 @@ export interface News {
 }
 
 export type NewsMutation = Omit<News, 'id' | 'createdAt'>;
+
+export interface Comment {
+  id: string;
+  news_id: string;
+  author: string | null;
+  text: string;
+}
+
+export type CommentMutation = Omit<Comment, 'id'>;

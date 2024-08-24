@@ -9,7 +9,7 @@ export const newsRouter = express.Router();
 newsRouter.get('/', async (req, res, next) => {
   try {
     const [news] = await mysqlDb.getConnection().query('select id, title, image, createdAt from news');
-    return res.send(news);
+    return res.status(200).send(news);
   } catch (e) {
     next(e);
   }
@@ -28,7 +28,7 @@ newsRouter.get('/:id', async (req, res, next) => {
       });
     }
 
-    return res.send(newsResult[0]);
+    return res.status(200).send(newsResult[0]);
   } catch (e) {
     next(e);
   }
@@ -36,7 +36,7 @@ newsRouter.get('/:id', async (req, res, next) => {
 
 newsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
   try {
-    const body = req.body as NewsMutation;
+    const body = req.body;
     const file = req.file;
 
     if (!body.content || !body.title) {
@@ -60,7 +60,7 @@ newsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
       .query('select * from news where id = ?;', [resultHeader.insertId]);
     const response = getNewResult[0] as News[];
 
-    return res.send(response[0]);
+    return res.status(201).send(response[0]);
   } catch (e) {
     next(e);
   }
@@ -78,9 +78,16 @@ newsRouter.delete('/:id', async (req, res, next) => {
       });
     }
 
-    await mysqlDb.getConnection().query('delete from news where id = ?;', [id]);
+    const deleteResponse = await mysqlDb.getConnection().query('delete from news where id = ?;', [id]);
+    const deleteResult = deleteResponse[0] as ResultSetHeader;
 
-    return res.send({
+    if (deleteResult.affectedRows === 0) {
+      return res.status(500).send({
+        error: 'Something went wrong',
+      });
+    }
+
+    return res.status(200).send({
       message: 'News deleted successfully',
     });
   } catch (e) {
