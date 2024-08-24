@@ -5,3 +5,5 @@ export interface News {
   image: string | null;
   createdAt: string;
 }
+
+export type NewsMutation = Omit<News, 'id' | 'createdAt'>;
