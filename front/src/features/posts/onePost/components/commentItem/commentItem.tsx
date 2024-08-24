@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/formatDate';
 import React from 'react';
 import { useAppSelector } from '@/app/hooks';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,10 @@ export const CommentItem: React.FC<Props> = ({ comment, onDelete }) => {
 
   return (
     <Card className={styles.card}>
-      <h3>{comment.author}</h3>
+      <div className={styles.cardHeader}>
+        <h3>{comment.author}</h3>
+        <span>{formatDate(comment.createdAt, 'v2')} ago</span>
+      </div>
       <p>{comment.text}</p>
 
       <Button

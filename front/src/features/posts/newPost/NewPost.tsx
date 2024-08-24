@@ -1,8 +1,10 @@
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { selectNewPostCreating } from '@/features/posts/newPost/newPostSlice';
 import { createPost } from '@/features/posts/newPost/newPostThunks';
 import type { NewsMutation } from '@/types';
 import React, { type ChangeEvent, type FormEvent, useState } from 'react';
@@ -18,6 +20,7 @@ const initialState: NewsMutation = {
 
 export const NewPost: React.FC = () => {
   const dispatch = useAppDispatch();
+  const isCreating = useAppSelector(selectNewPostCreating);
   const navigate = useNavigate();
   const [newsMutation, setNewsMutation] = useState<NewsMutation>(initialState);
 
@@ -98,7 +101,10 @@ export const NewPost: React.FC = () => {
             <Input type={'file'} id={'image'} name={'image'} onChange={onFileChang} />
           </div>
 
-          <Button>Save</Button>
+          <Button type={'submit'} disabled={isCreating}>
+            {isCreating && <Loader className={'text-black mr-2'} />}
+            Save
+          </Button>
         </div>
       </form>
     </div>

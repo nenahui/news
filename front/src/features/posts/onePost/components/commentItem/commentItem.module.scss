@@ -1,12 +1,16 @@
 .card {
-	@apply px-3 py-1 pt-2 rounded-lg;
+	@apply px-3 py-1 pt-2 rounded-md !important;
 	
-	& > span {
-		@apply text-muted-foreground;
-	}
+	.cardHeader {
+		@apply flex justify-between;
+		
+		& span {
+			@apply text-muted-foreground text-sm;
+		}
 	
-	& > p {
-		@apply text-sm;
+		& > p {
+			@apply text-sm;
+		}
 	}
 }
 

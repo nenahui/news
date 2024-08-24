@@ -28,7 +28,7 @@ export const Posts: React.FC = () => {
 
       <div className={styles.postsCards}>
         {isFetching ? (
-          <Loader />
+          <Loader centered />
         ) : posts.length === 0 ? (
           <p className={styles.emptyText}>The news list is empty</p>
         ) : (

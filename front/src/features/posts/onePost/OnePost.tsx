@@ -6,8 +6,8 @@ import { CommentForm } from '@/features/posts/newPost/components/commentForm/com
 import { CommentItem } from '@/features/posts/onePost/components/commentItem/commentItem';
 import { selectOnePostFetching, selectOnePostNews } from '@/features/posts/onePost/onePostSlice';
 import { deleteComment, fetchPost } from '@/features/posts/onePost/onePostThunks';
+import { formatDate } from '@/lib/formatDate';
 import { ResetIcon } from '@radix-ui/react-icons';
-import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './OnePost.module.scss';
@@ -31,7 +31,7 @@ export const OnePost: React.FC = () => {
   const toBack = () => navigate(-1);
 
   if (isFetching) {
-    return <Loader />;
+    return <Loader centered />;
   }
 
   if (news === null) {
@@ -43,7 +43,7 @@ export const OnePost: React.FC = () => {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h3>{news.newsInfo.title}</h3>
-          <span>{dayjs(news.newsInfo.createdAt).format('DD MMMM, YYYY hh:mm A')}</span>
+          <span>{formatDate(news.newsInfo.createdAt)}</span>
         </div>
 
         <Button onClick={toBack} size={'icon'} variant={'ghost'}>

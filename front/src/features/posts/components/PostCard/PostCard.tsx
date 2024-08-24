@@ -1,16 +1,16 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { NotFoundIc } from '@/assets/icons/NotFound';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { API_URL } from '@/constants';
 import { selectPostsDeleting } from '@/features/posts/postsSlice';
 import { deletePost, fetchPosts } from '@/features/posts/postsThunks';
+import { formatDate } from '@/lib/formatDate';
 import type { News } from '@/types';
-import React from 'react';
-import { Card } from '@/components/ui/card';
 import { DoubleArrowRightIcon, TrashIcon } from '@radix-ui/react-icons';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './PostCard.module.scss';
-import dayjs from 'dayjs';
 
 interface Props {
   post: News;
@@ -38,7 +38,7 @@ export const PostCard: React.FC<Props> = ({ post }) => {
         <h3 className={styles.cardTitle}>{post.title}</h3>
         <div className={styles.cardBottom}>
           <div className={styles.cardDate}>
-            <span>{dayjs(post.createdAt).format('DD MMMM, YYYY hh:mm A')}</span>
+            <span>{formatDate(post.createdAt)}</span>
             <Link to={`/news/${post.id}`}>
               Read full post
               <DoubleArrowRightIcon className={'mb-[-2px]'} />
